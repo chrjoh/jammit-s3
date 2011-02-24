@@ -15,7 +15,8 @@ module Jammit
         @cache_control = options[:cache_control] || Jammit.configuration[:s3_cache_control]
         @expires = options[:expires] || Jammit.configuration[:s3_expires]
         @acl = options[:acl] || Jammit.configuration[:s3_permission] || :public_read
-
+        @image_s3_path  = options[:image_s3_path] || Jammit.configuration[:image_s3_path]
+        
         @bucket = find_or_create_bucket
       end
     end
@@ -33,7 +34,7 @@ module Jammit
       end
 
       # add images
-      globs << "public/images/**/*"
+      globs << "public/#{@image_s3_path}images/**/*"
 
       # add custom configuration if defined
       s3_upload_files = Jammit.configuration[:s3_upload_files]
